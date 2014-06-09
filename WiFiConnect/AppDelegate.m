@@ -7,15 +7,30 @@
 //
 
 #import "AppDelegate.h"
+#import "MainViewCtl.h"
 
 @implementation AppDelegate
 
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+- (void)initWidght
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
+    
+    
+    if (_mainViewCtl == nil) {
+        _mainViewCtl = [[MainViewCtl alloc] initWithNibName:@"MainView" bundle:nil];
+    }
+    
+    [self.window addSubview:_mainViewCtl.view];
+    
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
+    
+}
+
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+{
+    [self initWidght];
     return YES;
 }
 
@@ -44,6 +59,13 @@
 - (void)applicationWillTerminate:(UIApplication *)application
 {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+}
+
+
+- (void)dealloc
+{
+    [super dealloc];
+    SafeRelease(_mainViewCtl);
 }
 
 @end

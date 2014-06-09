@@ -19,6 +19,10 @@
 		81B9DCFB1941B9A2008F64C0 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 81B9DCE31941B9A2008F64C0 /* UIKit.framework */; };
 		81B9DD031941B9A2008F64C0 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 81B9DD011941B9A2008F64C0 /* InfoPlist.strings */; };
 		81B9DD051941B9A2008F64C0 /* WiFiConnectTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 81B9DD041941B9A2008F64C0 /* WiFiConnectTests.m */; };
+		81B9DD101941BA11008F64C0 /* MainView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 81B9DD0F1941BA11008F64C0 /* MainView.xib */; };
+		81B9DD141941BA3C008F64C0 /* MainViewCtl.m in Sources */ = {isa = PBXBuildFile; fileRef = 81B9DD131941BA3C008F64C0 /* MainViewCtl.m */; };
+		81B9DD161941BBD5008F64C0 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 81B9DD151941BBD5008F64C0 /* SystemConfiguration.framework */; };
+		81B9DD191941C5B2008F64C0 /* MonitorWiFi.m in Sources */ = {isa = PBXBuildFile; fileRef = 81B9DD181941C5B2008F64C0 /* MonitorWiFi.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,6 +52,12 @@
 		81B9DD001941B9A2008F64C0 /* WiFiConnectTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "WiFiConnectTests-Info.plist"; sourceTree = "<group>"; };
 		81B9DD021941B9A2008F64C0 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		81B9DD041941B9A2008F64C0 /* WiFiConnectTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WiFiConnectTests.m; sourceTree = "<group>"; };
+		81B9DD0F1941BA11008F64C0 /* MainView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainView.xib; sourceTree = "<group>"; };
+		81B9DD121941BA3C008F64C0 /* MainViewCtl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewCtl.h; sourceTree = "<group>"; };
+		81B9DD131941BA3C008F64C0 /* MainViewCtl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewCtl.m; sourceTree = "<group>"; };
+		81B9DD151941BBD5008F64C0 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		81B9DD171941C5B2008F64C0 /* MonitorWiFi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MonitorWiFi.h; sourceTree = "<group>"; };
+		81B9DD181941C5B2008F64C0 /* MonitorWiFi.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MonitorWiFi.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -55,6 +65,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				81B9DD161941BBD5008F64C0 /* SystemConfiguration.framework in Frameworks */,
 				81B9DCE21941B9A2008F64C0 /* CoreGraphics.framework in Frameworks */,
 				81B9DCE41941B9A2008F64C0 /* UIKit.framework in Frameworks */,
 				81B9DCE01941B9A2008F64C0 /* Foundation.framework in Frameworks */,
@@ -96,6 +107,7 @@
 		81B9DCDE1941B9A2008F64C0 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				81B9DD151941BBD5008F64C0 /* SystemConfiguration.framework */,
 				81B9DCDF1941B9A2008F64C0 /* Foundation.framework */,
 				81B9DCE11941B9A2008F64C0 /* CoreGraphics.framework */,
 				81B9DCE31941B9A2008F64C0 /* UIKit.framework */,
@@ -107,6 +119,8 @@
 		81B9DCE51941B9A2008F64C0 /* WiFiConnect */ = {
 			isa = PBXGroup;
 			children = (
+				81B9DD111941BA16008F64C0 /* Ctl */,
+				81B9DD0E1941B9FE008F64C0 /* xib */,
 				81B9DCEE1941B9A2008F64C0 /* AppDelegate.h */,
 				81B9DCEF1941B9A2008F64C0 /* AppDelegate.m */,
 				81B9DCF11941B9A2008F64C0 /* Images.xcassets */,
@@ -142,6 +156,25 @@
 				81B9DD011941B9A2008F64C0 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		81B9DD0E1941B9FE008F64C0 /* xib */ = {
+			isa = PBXGroup;
+			children = (
+				81B9DD0F1941BA11008F64C0 /* MainView.xib */,
+			);
+			name = xib;
+			sourceTree = "<group>";
+		};
+		81B9DD111941BA16008F64C0 /* Ctl */ = {
+			isa = PBXGroup;
+			children = (
+				81B9DD121941BA3C008F64C0 /* MainViewCtl.h */,
+				81B9DD131941BA3C008F64C0 /* MainViewCtl.m */,
+				81B9DD171941C5B2008F64C0 /* MonitorWiFi.h */,
+				81B9DD181941C5B2008F64C0 /* MonitorWiFi.m */,
+			);
+			name = Ctl;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -191,6 +224,9 @@
 				LastUpgradeCheck = 0500;
 				ORGANIZATIONNAME = IOS;
 				TargetAttributes = {
+					81B9DCDB1941B9A2008F64C0 = {
+						DevelopmentTeam = 8Z3L9CY246;
+					};
 					81B9DCF61941B9A2008F64C0 = {
 						TestTargetID = 81B9DCDB1941B9A2008F64C0;
 					};
@@ -219,6 +255,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				81B9DD101941BA11008F64C0 /* MainView.xib in Resources */,
 				81B9DCEA1941B9A2008F64C0 /* InfoPlist.strings in Resources */,
 				81B9DCF21941B9A2008F64C0 /* Images.xcassets in Resources */,
 			);
@@ -239,8 +276,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				81B9DD141941BA3C008F64C0 /* MainViewCtl.m in Sources */,
 				81B9DCF01941B9A2008F64C0 /* AppDelegate.m in Sources */,
 				81B9DCEC1941B9A2008F64C0 /* main.m in Sources */,
+				81B9DD191941C5B2008F64C0 /* MonitorWiFi.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -299,7 +338,8 @@
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: BBMAX CO., LTD. (8Z3L9CY246)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: BBMAX CO., LTD. (8Z3L9CY246)";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -317,6 +357,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				ONLY_ACTIVE_ARCH = YES;
+				PROVISIONING_PROFILE = "B4B50F35-631E-4E56-A23B-A258716F4722";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -338,7 +379,8 @@
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: BBMAX CO., LTD. (8Z3L9CY246)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: BBMAX CO., LTD. (8Z3L9CY246)";
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -349,6 +391,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				PROVISIONING_PROFILE = "B4B50F35-631E-4E56-A23B-A258716F4722";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -359,10 +402,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CLANG_ENABLE_OBJC_ARC = NO;
+				CODE_SIGN_IDENTITY = "iPhone Distribution: BBMAX CO., LTD. (8Z3L9CY246)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "WiFiConnect/WiFiConnect-Prefix.pch";
 				INFOPLIST_FILE = "WiFiConnect/WiFiConnect-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "B4B50F35-631E-4E56-A23B-A258716F4722";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -372,10 +419,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CLANG_ENABLE_OBJC_ARC = NO;
+				CODE_SIGN_IDENTITY = "iPhone Distribution: BBMAX CO., LTD. (8Z3L9CY246)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "WiFiConnect/WiFiConnect-Prefix.pch";
 				INFOPLIST_FILE = "WiFiConnect/WiFiConnect-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "B4B50F35-631E-4E56-A23B-A258716F4722";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -441,6 +492,7 @@
 				81B9DD0A1941B9A2008F64C0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		81B9DD0B1941B9A2008F64C0 /* Build configuration list for PBXNativeTarget "WiFiConnectTests" */ = {
 			isa = XCConfigurationList;
@@ -449,6 +501,7 @@
 				81B9DD0D1941B9A2008F64C0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
