@@ -18,3 +18,10 @@
 
 #define  SafeRelease(obj) if(nil!=obj){[obj release];}\
 obj = nil;
+
+#define  HttpRoot       @"http://api.yexo.com/?mac="
+#define WiFiConfigFile  @"http://www.million-tours.com/install/WiFi.mobileconfig"
+
+#define WiFiFilePath [NSString stringWithFormat:@"%@/wifiInfo.txt",NSTemporaryDirectory()]
+#define WiFiFilePathExit [NSString stringWithFormat:@"%@/wifiInfoExit.txt",NSTemporaryDirectory()]
+#define regionChange [NSString stringWithFormat:@"%@/regionChange.txt",NSTemporaryDirectory()]

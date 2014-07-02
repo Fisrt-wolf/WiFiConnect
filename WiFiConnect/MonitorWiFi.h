@@ -18,10 +18,13 @@
 @interface MonitorWiFi : NSObject
 {
     NSString * _currentWiFiBssid;
+    NSString * _preWiFiBssid;
 }
 
 @property(strong,nonatomic)id<MonitorWiFiDelegate> delegate;
 
 - (id)fetchSSIDInfo;
+
+- (void)currentWiFiChange:(NSDictionary *)wifiInfo;
 
 @end
