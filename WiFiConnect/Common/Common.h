@@ -9,15 +9,13 @@
 #import <Foundation/Foundation.h>
 #import <CoreLocation/CoreLocation.h>
 
-
 #define ProvinceId          @"Id"
 #define ProvinceName        @"Province"
 #define ProvinceSimplified  @"ProSimplified"
 #define CityId              @"Id"
 #define CityName            @"City"
 #define CitySimplified      @"CitySimplified"
-@class MainViewCtl;
-@class AppDelegate;
+
 @interface Common : NSObject
 +(Common *)shareCommon;
 
@@ -43,5 +41,5 @@
  * @pragram : locationsAry : 需要跟踪的区域的信息
  * return   : void
  */
-- (void)regionLocations:(NSArray *)locationsAry managerObj:(AppDelegate *)managerObj;
+- (void)regionLocations:(NSArray *)locationsAry managerObj:(CLLocationManager *)managerObj;
 @end

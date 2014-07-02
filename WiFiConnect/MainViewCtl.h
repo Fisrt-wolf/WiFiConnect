@@ -11,7 +11,7 @@
 #import "MonitorWiFi.h"
 #import "Location.h"
 
-@interface MainViewCtl : UIViewController<MonitorWiFiDelegate,UIWebViewDelegate,LocationDelegate,CLLocationManagerDelegate>
+@interface MainViewCtl : UIViewController<MonitorWiFiDelegate,UIWebViewDelegate,LocationDelegate>
 {
     MonitorWiFi * _monitorWifi;
     NSTimer     * _timer;
@@ -23,7 +23,6 @@
 @property(strong,nonatomic)IBOutlet UITextView * wifiRequestInfoView;
 @property(strong,nonatomic)IBOutlet UIWebView  * webView ;
 @property(strong,nonatomic)IBOutlet UIActivityIndicatorView * activityIndicatorView;
-@property (strong, nonatomic) CLLocationManager* locationManager;
 
 - (void)monitorWiFi;
 - (IBAction)downloadConfigFile:(id)sender;

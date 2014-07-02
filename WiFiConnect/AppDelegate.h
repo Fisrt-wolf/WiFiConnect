@@ -20,6 +20,6 @@
 
 @property (strong, nonatomic) UIWindow *window;
 @property (strong, nonatomic) CLLocationManager* locationManager;
-
+@property (strong, nonatomic) CLLocationManager *paperboyLocationManager;
 + (CLLocationManager*) sharedLocationManager;
 @end

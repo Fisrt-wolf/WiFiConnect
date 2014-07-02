@@ -103,7 +103,7 @@ static Common * shareCommon = nil;
  * @pragram : locationsAry : 需要跟踪的区域的信息
  * return   : void
  */
-- (void)regionLocations:(NSArray *)locationsAry managerObj:(AppDelegate *)managerObj
+- (void)regionLocations:(NSArray *)locationsAry managerObj:(CLLocationManager *)managerObj
 {
     NSMutableArray *geofences = [NSMutableArray array];
     
@@ -118,7 +118,7 @@ static Common * shareCommon = nil;
     
     if (geofences.count > 0) {
         for (CLRegion * geofence in geofences) {
-            [managerObj.locationManager startMonitoringForRegion:geofence];
+            [managerObj startMonitoringForRegion:geofence];
         }
     }
 }
