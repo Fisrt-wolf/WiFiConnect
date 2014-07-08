@@ -40,7 +40,6 @@
 
     for (NSString *ifnam in ifs) {
         info = (id)CNCopyCurrentNetworkInfo((CFStringRef)ifnam);
-        NSLog(@"_currentWiFiBssid : %@",_currentWiFiBssid);
         if (info == nil) {
             SafeRelease(_currentWiFiBssid);
             _currentWiFiBssid = [@"NULL" retain];
@@ -53,6 +52,7 @@
             _currentWiFiBssid = [[info objectForKey:@"BSSID"] retain];
             [self updateWiFiMacAddress:_currentWiFiBssid];
             [self wifiChange:info];
+            
         }
         
         if (info && [info count]) {
@@ -69,15 +69,14 @@
 
 - (void)wifiChange:(NSDictionary *)wifiInfo
 {
-//    [self currentWiFiChange:wifiInfo];
-//    return;
     NSString * tWiFiBssid = [[wifiInfo objectForKey:@"BSSID"] retain];
     SafeRelease(_preWiFiBssid);
     _preWiFiBssid = tWiFiBssid ;
-    NSLog(@"_preWiFiBssid : %@",_preWiFiBssid);
+//    NSLog(@"_preWiFiBssid : %@",_preWiFiBssid);
     sleep(3);
     [self fetchSSIDInfo];
     if ([_currentWiFiBssid isEqualToString:_preWiFiBssid]) {
+//        [self currentWiFiChange:wifiInfo];
         [self performSelectorOnMainThread:@selector(currentWiFiChange:) withObject:wifiInfo waitUntilDone:NO];
     }
 }

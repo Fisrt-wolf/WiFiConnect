@@ -191,7 +191,7 @@
     NSURL *baseURL = [NSURL fileURLWithPath:[[NSBundle mainBundle] bundlePath]];
     
     NSString *path = [[NSBundle mainBundle] pathForResource:@"test" ofType:@"html"];
-    path = @"http://life.qq.com/weixin/dish/list?qrcode=q1385302068332&code=00c2ee5dbc7bd96e2eaab2be2f50b1bc&ticket=00c2ee5dbc7bd96e2eaab2be2f50b1bc&ticketSource=&from=weixin.dish.menu#wechat_webview_type=1";
+    path = @"http://life.qq.com/weixin/dish/dish?cardid=2968361168&num=2&qrcode=q1385302068332&ticket=004efcbfbf6d7c045a4c5ddb39e10832&from=weixin.dish.selectNumber#wechat_webview_type=1";
     
     NSURL* url = [NSURL URLWithString:path];
     [self.webView loadRequest:[NSURLRequest requestWithURL:url]];

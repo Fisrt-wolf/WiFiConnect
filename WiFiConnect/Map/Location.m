@@ -19,22 +19,28 @@
     _currentLocation.delegate = self;
     _currentLocation.desiredAccuracy = kCLLocationAccuracyBest;
     [_currentLocation startUpdatingLocation];
+    locationFlag = YES;
 }
 
 
 #pragma mark - Location
 - (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
 {
+    
     CLGeocoder *geocoder;
     geocoder = [[CLGeocoder alloc] init];
     [geocoder reverseGeocodeLocation:newLocation completionHandler:^(NSArray *placemarks, NSError *error)
      {
-         
+         NSLog(@"%@",newLocation);
          if (nil != delegate && [delegate respondsToSelector:@selector(getCurrentLocation:)] ) {
-             [delegate getCurrentLocation:newLocation];
+             if (locationFlag == YES) {
+                 [delegate getCurrentLocation:newLocation];
+                 locationFlag = NO;
+             }
+             
          }
-         
          [_currentLocation stopUpdatingLocation];
+         
      }];
 }
 

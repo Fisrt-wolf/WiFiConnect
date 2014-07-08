@@ -8,18 +8,24 @@
 
 #import <UIKit/UIKit.h>
 #import <CoreLocation/CoreLocation.h>
+#import "LocationUtil.h"
+#import "ScheduledLocationManager.h"
 
 @class MainViewCtl;
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate,CLLocationManagerDelegate>
+@interface AppDelegate : UIResponder <UIApplicationDelegate,CLLocationManagerDelegate,LocationRecievedSuccessfully,ScheduledLocationManagerDelegate>
 {
     MainViewCtl * _mainViewCtl;
     NSTimeInterval _backgroundRunningTimeInterval;
     UIBackgroundTaskIdentifier _bgTask;
+    UIBackgroundTaskIdentifier bgTask;
+    
 }
 
 @property (strong, nonatomic) UIWindow *window;
 @property (strong, nonatomic) CLLocationManager* locationManager;
 @property (strong, nonatomic) CLLocationManager *paperboyLocationManager;
-+ (CLLocationManager*) sharedLocationManager;
+@property (strong, nonatomic) LocationUtil * locationUtil;
+@property (strong, nonatomic) ScheduledLocationManager *slm;
+
 @end

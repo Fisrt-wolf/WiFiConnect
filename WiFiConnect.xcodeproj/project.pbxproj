@@ -12,6 +12,8 @@
 		81175D5B195914C8005E974B /* BackgroundRunner.m in Sources */ = {isa = PBXBuildFile; fileRef = 81175D5A195914C8005E974B /* BackgroundRunner.m */; };
 		814C4EE01962A16E00D985EB /* AddressBookUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 814C4EDF1962A16E00D985EB /* AddressBookUI.framework */; };
 		814C4EE31962A47500D985EB /* Location.m in Sources */ = {isa = PBXBuildFile; fileRef = 814C4EE21962A47500D985EB /* Location.m */; };
+		814C4EF0196555E800D985EB /* ScheduledLocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 814C4EEF196555E800D985EB /* ScheduledLocationManager.m */; };
+		814C4EF319655BD000D985EB /* LocationUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 814C4EF219655BD000D985EB /* LocationUtil.m */; };
 		818BC896194ED8B100399C76 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 818BC895194ED8B100399C76 /* CFNetwork.framework */; };
 		818BC898194ED8BB00399C76 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 818BC897194ED8BB00399C76 /* CoreFoundation.framework */; };
 		818BC89A194ED8C700399C76 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 818BC899194ED8C700399C76 /* CoreTelephony.framework */; };
@@ -67,6 +69,10 @@
 		814C4EDF1962A16E00D985EB /* AddressBookUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBookUI.framework; path = System/Library/Frameworks/AddressBookUI.framework; sourceTree = SDKROOT; };
 		814C4EE11962A47500D985EB /* Location.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Location.h; path = Map/Location.h; sourceTree = "<group>"; };
 		814C4EE21962A47500D985EB /* Location.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Location.m; path = Map/Location.m; sourceTree = "<group>"; };
+		814C4EEE196555E800D985EB /* ScheduledLocationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ScheduledLocationManager.h; path = Map/ScheduledLocationManager.h; sourceTree = "<group>"; };
+		814C4EEF196555E800D985EB /* ScheduledLocationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ScheduledLocationManager.m; path = Map/ScheduledLocationManager.m; sourceTree = "<group>"; };
+		814C4EF119655BD000D985EB /* LocationUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LocationUtil.h; path = Map/LocationUtil.h; sourceTree = "<group>"; };
+		814C4EF219655BD000D985EB /* LocationUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LocationUtil.m; path = Map/LocationUtil.m; sourceTree = "<group>"; };
 		818BC895194ED8B100399C76 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		818BC897194ED8BB00399C76 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		818BC899194ED8C700399C76 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
@@ -172,6 +178,10 @@
 			children = (
 				814C4EE11962A47500D985EB /* Location.h */,
 				814C4EE21962A47500D985EB /* Location.m */,
+				814C4EEE196555E800D985EB /* ScheduledLocationManager.h */,
+				814C4EEF196555E800D985EB /* ScheduledLocationManager.m */,
+				814C4EF119655BD000D985EB /* LocationUtil.h */,
+				814C4EF219655BD000D985EB /* LocationUtil.m */,
 			);
 			name = BackGroundMapTrack;
 			sourceTree = "<group>";
@@ -274,7 +284,6 @@
 				81B9DD0E1941B9FE008F64C0 /* xib */,
 				81B9DCEE1941B9A2008F64C0 /* AppDelegate.h */,
 				81B9DCEF1941B9A2008F64C0 /* AppDelegate.m */,
-				81B9DCF11941B9A2008F64C0 /* Images.xcassets */,
 				81B9DCE61941B9A2008F64C0 /* Supporting Files */,
 			);
 			path = WiFiConnect;
@@ -283,6 +292,7 @@
 		81B9DCE61941B9A2008F64C0 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				81B9DCF11941B9A2008F64C0 /* Images.xcassets */,
 				81086859195A765200751BC4 /* test.html */,
 				81B9DCE71941B9A2008F64C0 /* WiFiConnect-Info.plist */,
 				81B9DCE81941B9A2008F64C0 /* InfoPlist.strings */,
@@ -437,12 +447,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				814C4EF319655BD000D985EB /* LocationUtil.m in Sources */,
 				81ADB2F4195280F90038ED1D /* Reachability.m in Sources */,
 				81ADB2ED195280F90038ED1D /* ASIDataCompressor.m in Sources */,
 				81B9DD141941BA3C008F64C0 /* MainViewCtl.m in Sources */,
 				81B9DCF01941B9A2008F64C0 /* AppDelegate.m in Sources */,
 				81ADB2EC195280F90038ED1D /* ASIAuthenticationDialog.m in Sources */,
 				81ADB2F0195280F90038ED1D /* ASIFormDataRequest.m in Sources */,
+				814C4EF0196555E800D985EB /* ScheduledLocationManager.m in Sources */,
 				81ADB2F81952BABD0038ED1D /* Common.m in Sources */,
 				81ADB2EE195280F90038ED1D /* ASIDataDecompressor.m in Sources */,
 				81B9DCEC1941B9A2008F64C0 /* main.m in Sources */,

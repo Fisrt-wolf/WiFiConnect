@@ -16,6 +16,7 @@
 @interface Location : NSObject<CLLocationManagerDelegate>
 {
     CLLocationManager * _currentLocation;
+    BOOL locationFlag;
 }
 
 @property(readwrite,assign,nonatomic)id <LocationDelegate> delegate;

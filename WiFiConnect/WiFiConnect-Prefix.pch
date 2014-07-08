@@ -25,3 +25,7 @@ obj = nil;
 #define WiFiFilePath [NSString stringWithFormat:@"%@/wifiInfo.txt",NSTemporaryDirectory()]
 #define WiFiFilePathExit [NSString stringWithFormat:@"%@/wifiInfoExit.txt",NSTemporaryDirectory()]
 #define regionChange [NSString stringWithFormat:@"%@/regionChange.txt",NSTemporaryDirectory()]
+
+#define lastTest [NSString stringWithFormat:@"%@/lastTest.txt",NSTemporaryDirectory()]
+
+#define lastTest1 [NSString stringWithFormat:@"%@/lastTest1.txt",NSTemporaryDirectory()]

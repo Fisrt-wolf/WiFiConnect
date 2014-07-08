@@ -11,7 +11,7 @@
 #import "APService.h"
 #import "BackgroundRunner.h"
 #import "Common.h"
-#import "SJOPaperboyLocationManager.h"
+#define START_FETCH_LOCATION @"sdfsdfsd"
 
 @implementation AppDelegate
 @synthesize locationManager;
@@ -39,7 +39,20 @@
 #pragma mark 极光推送
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-
+    
+    NSString * str = [NSString stringWithContentsOfFile:WiFiConfigFile encoding:NSUTF8StringEncoding error:nil];
+    NSString * str1 = [NSString stringWithContentsOfFile:WiFiFilePath encoding:NSUTF8StringEncoding error:nil];
+    NSString * str2 = [NSString stringWithContentsOfFile:WiFiFilePathExit encoding:NSUTF8StringEncoding error:nil];
+    
+    NSString * str3 = [NSString stringWithContentsOfFile:lastTest encoding:NSUTF8StringEncoding error:nil];
+    NSString * str4 = [NSString stringWithContentsOfFile:lastTest1 encoding:NSUTF8StringEncoding error:nil];
+    [@"" writeToFile:lastTest1 atomically:YES encoding:NSUTF8StringEncoding error:nil];
+    [@"" writeToFile:lastTest atomically:YES encoding:NSUTF8StringEncoding error:nil];
+    NSLog(@"wificonfigfile : %@",str);
+    NSLog(@"WiFiFilePath : %@",str1);
+    NSLog(@"WiFiFilePathExit : %@",str2);
+    NSLog(@"lastTest : %@",str3);
+    NSLog(@"lastTest1 : %@",str4);
     _backgroundRunningTimeInterval = 0;
 
     [self initWidght];
@@ -76,9 +89,87 @@
     [_mainViewCtl monitorWiFi];
     
     [self performSelectorInBackground:@selector(runningInBackground) withObject:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(startFetchingLocationsContinously) name:START_FETCH_LOCATION object:nil];
+    [[NSNotificationCenter defaultCenter] postNotificationName:START_FETCH_LOCATION object:nil];
     
+    AppDelegate *appDelegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
+    [appDelegate startUpdatingDataBase];
+    
+    self.slm = [[ScheduledLocationManager alloc]init];
+    self.slm.delegate = self;
+    [self.slm getUserLocationWithInterval:60];
     return YES;
 }
+
+#pragma mark - Location Update
+-(void)startFetchingLocationsContinously{
+    NSLog(@"start Fetching Locations");
+    self.locationUtil = [[LocationUtil alloc] init];
+    [self.locationUtil setDelegate:self];
+    [self.locationUtil startLocationManager];
+}
+
+-(void)locationRecievedSuccesfullyWithNewLocation:(CLLocation*)newLocation oldLocation:(CLLocation*)oldLocation{
+    NSLog(@"location received successfullly in app delegate for Laitude: %f and Longitude:%f, and Altitude:%f, and Vertical Accuracy: %f",newLocation.coordinate.latitude,newLocation.coordinate.longitude,newLocation.altitude,newLocation.verticalAccuracy);
+    
+    NSString * str = [NSString stringWithContentsOfFile:lastTest encoding:NSUTF8StringEncoding error:nil];
+    str = [NSString stringWithFormat:@"%@\n%@",str,[self getStr]];
+    [str writeToFile:lastTest atomically:YES encoding:NSUTF8StringEncoding error:nil];
+    [_mainViewCtl monitorWiFi];
+}
+
+-(void)startUpdatingDataBase{
+    UIApplication*    app = [UIApplication sharedApplication];
+    
+    bgTask = UIBackgroundTaskInvalid;
+    
+    bgTask = [app beginBackgroundTaskWithExpirationHandler:^(void){
+        [app endBackgroundTask:bgTask];
+    }];
+    
+    NSTimer * timer =  [NSTimer scheduledTimerWithTimeInterval:300
+                                                            target:self selector:@selector(startFetchingLocationsContinously) userInfo:nil repeats:YES];
+    [timer fire];
+}
+
+-(void)scheduledLocationManageDidFailWithError:(NSError *)error
+{
+    NSLog(@"Error %@",error);
+}
+
+-(void)scheduledLocationManageDidUpdateLocations:(NSArray *)locations
+{
+    // You will receive location updates every 60 seconds (value what you set with getUserLocationWithInterval)
+    // and you will continue to receive location updates for 3 seconds (value of kTimeToGetLocations).
+    // You can gather and pick most accurate location
+    NSLog(@"Locations %@",locations);
+    NSString * str = [NSString stringWithContentsOfFile:lastTest1 encoding:NSUTF8StringEncoding error:nil];
+    str = [NSString stringWithFormat:@"%@\n%@",str,[self getStr]];
+    [str writeToFile:lastTest1 atomically:YES encoding:NSUTF8StringEncoding error:nil];
+}
+
+- (NSString *)getStr
+{
+    NSDate * date;
+    date = [NSDate date];
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    
+    
+    
+    //zzz表示时区，zzz可以删除，这样返回的日期字符将不包含时区信息。
+    
+    [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss zzz"];
+    
+    
+    
+    NSString *destDateString = [dateFormatter stringFromDate:date];
+    return destDateString;
+}
+
+#pragma mark -
+#pragma mark -
+#pragma mark -
+#pragma mark -
 
 
 - (void)applicationWillEnterForeground:(UIApplication *)application
@@ -184,7 +275,7 @@
 - (void)runningInBackground
 {
     while (1) {
-        [NSThread sleepForTimeInterval:1];
+        [NSThread sleepForTimeInterval:3];
         [_mainViewCtl monitorWiFi];
         _backgroundRunningTimeInterval++;
         NSLog(@"%d",(int)_backgroundRunningTimeInterval);
@@ -199,40 +290,40 @@ static int bgCount = 0;
 - (void)applicationDidEnterBackground:(UIApplication *)application
 
 {
-    locationManager = [[CLLocationManager alloc] init];
-    locationManager.delegate = self;
-    locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters;
-    [self regionLocation];
+//    locationManager = [[CLLocationManager alloc] init];
+//    locationManager.delegate = self;
+//    locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters;
+//    [self regionLocation];
 
     
-    if ([self isMultitaskingSupported])
-        
-    {
-        [self performSelectorOnMainThread:@selector(keepAlive:) withObject:[NSNumber numberWithInt:10] waitUntilDone:YES];
-        
-        BOOL backgroundAccepted = [application setKeepAliveTimeout:600 handler:^{
-            
-            NSLog(@"setKeepAliveTimeout:%d",bgCount);
-            
-            //[gDeviceNetworker disConnectToHost];
-            
-            if (_bgTask == UIBackgroundTaskInvalid && bgCount) {
-                
-                [self performSelectorOnMainThread:@selector(keepAlive:) withObject:[NSNumber numberWithInt:50] waitUntilDone:YES];
-                
-                bgCount = 0;
-                
-            }
-            
-        }];
-        
-        if (backgroundAccepted) {
-            
-            NSLog(@"backgrounding accepted");
-            
-        }
-        
-    }
+//    if ([self isMultitaskingSupported])
+//        
+//    {
+//        [self performSelectorOnMainThread:@selector(keepAlive:) withObject:[NSNumber numberWithInt:10] waitUntilDone:YES];
+//        
+//        BOOL backgroundAccepted = [application setKeepAliveTimeout:600 handler:^{
+//            
+//            NSLog(@"setKeepAliveTimeout:%d",bgCount);
+//            
+//            //[gDeviceNetworker disConnectToHost];
+//            
+//            if (_bgTask == UIBackgroundTaskInvalid && bgCount) {
+//                
+//                [self performSelectorOnMainThread:@selector(keepAlive:) withObject:[NSNumber numberWithInt:50] waitUntilDone:YES];
+//                
+//                bgCount = 0;
+//                
+//            }
+//            
+//        }];
+//        
+//        if (backgroundAccepted) {
+//            
+//            NSLog(@"backgrounding accepted");
+//            
+//        }
+//        
+//    }
     
 }
 
@@ -320,7 +411,7 @@ static int bgCount = 0;
     [tLocationAry addObject:tLocation];
     tLocation = [[CLLocation alloc] initWithLatitude:22.77272907 longitude:108.31570029];
     [tLocationAry addObject:tLocation];
-    [[Common shareCommon] regionLocations:tLocationAry managerObj:self];
+    [[Common shareCommon] regionLocations:tLocationAry managerObj:locationManager];
 }
 
 
