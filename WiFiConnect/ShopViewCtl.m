@@ -52,16 +52,11 @@
 #pragma mark webview
 - (void)loadWebView
 {
-    NSURL *baseURL = [NSURL fileURLWithPath:[[NSBundle mainBundle] bundlePath]];
-    
     NSString *path = [[NSBundle mainBundle] pathForResource:@"test" ofType:@"html"];
     path = @"http://www.baidu.com";
     
     NSURL* url = [NSURL URLWithString:path];
     [self.webView loadRequest:[NSURLRequest requestWithURL:url]];
-    //    NSString *html = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:nil];
-    
-    //    [self.webView loadHTMLString:html baseURL:baseURL];
 }
 
 

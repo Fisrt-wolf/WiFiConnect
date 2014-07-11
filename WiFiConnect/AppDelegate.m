@@ -251,9 +251,7 @@
 }
 
 - (void)networkDidReceiveMessage:(NSNotification *)notification {
-    NSDictionary * userInfo = [notification userInfo];
-    NSString *title = [userInfo valueForKey:@"title"];
-    NSString *content = [userInfo valueForKey:@"content"];
+
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     
     [dateFormatter setDateFormat:@"yyyy-MM-dd hh:mm:ss"];
@@ -419,6 +417,7 @@ static int bgCount = 0;
     [self locationChanged];
 }
 
+
 -(void)locationManager:(CLLocationManager *)manager didExitRegion:(CLRegion *)region
 {
     int count = 0;
@@ -431,6 +430,7 @@ static int bgCount = 0;
     [self locationChanged];
 }
 
+
 - (void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status
 {
     int count = 0;
@@ -442,6 +442,7 @@ static int bgCount = 0;
     }
 }
 
+
 -(void)locationChanged
 {
     /*
@@ -450,19 +451,9 @@ static int bgCount = 0;
      * Here, we rate limit it to prevent performing the update twice in quick succession.
      */
     
-    NSDictionary * dic = [NSDictionary dictionaryWithObjectsAndKeys:@"BSSID",@"14:e6:e4:fe:e6:50",@"SSID", nil];
-    static long timestamp;
-    
-    if (timestamp == 0) {
-        timestamp = [[NSDate date] timeIntervalSince1970];
-    } else {
-        if ([[NSDate date] timeIntervalSince1970] - timestamp < 10) {
-            return;
-        }
-    }
+//    NSDictionary * dic = [NSDictionary dictionaryWithObjectsAndKeys:@"BSSID",@"14:e6:e4:fe:e6:50",@"SSID", nil];
+    MyNSLog(@"location changed");
     
 }
-
-
 
 @end

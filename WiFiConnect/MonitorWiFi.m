@@ -107,7 +107,6 @@
 - (void)updateWiFiMacAddress:(NSString *)macAddress
 {
     [macAddress writeToFile:WiFiFilePath atomically:YES encoding:NSUTF8StringEncoding error:nil];
-    NSString * str = [NSString stringWithContentsOfFile:WiFiFilePath encoding:NSUTF8StringEncoding error:nil];
 }
 
 @end

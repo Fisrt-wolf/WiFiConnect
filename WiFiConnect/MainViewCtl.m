@@ -154,8 +154,6 @@
 }
 
 
-
-
 #pragma mark -
 #pragma mark MD5 加密
 - (NSString *)md5:(NSString *)str
