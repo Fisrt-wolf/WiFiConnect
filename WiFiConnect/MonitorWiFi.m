@@ -31,54 +31,62 @@
     SafeRelease(_currentWiFiBssid);
 }
 
-- (id)fetchSSIDInfo
+- (void)fetchSSIDInfo
 {
-    NSLog(@"-=-=-=-=-");
-    NSArray *ifs = (id)CNCopySupportedInterfaces();
-//    _currentWiFiBssid = [self getCurrentWiFiMacAddress];
-    id info = nil;
+    NSDictionary * tWiFiInfo = [self getWiFiInfo];
+    MyNSLog(tWiFiInfo);
+    _currentWiFiBssid = [self getCurrentWiFiMacAddress];
+    NSString * tWiFiSSid = [tWiFiInfo objectForKey:@"BSSID"];
+    if (nil == tWiFiInfo) {
+        tWiFiSSid = @"";
+    }
+    if (![tWiFiSSid isEqualToString:_currentWiFiBssid]) {
+        
+        [self updateWiFiMacAddress:tWiFiSSid];
+        
+        [self wifiChange:tWiFiInfo];
+    }
+}
 
+
+// ---  获取当前连接上得wifi信息  ---
+- (id)getWiFiInfo
+{
+    NSArray *ifs = (id)CNCopySupportedInterfaces();
+    id info = nil;
+    
     for (NSString *ifnam in ifs) {
         info = (id)CNCopyCurrentNetworkInfo((CFStringRef)ifnam);
-        if (info == nil) {
-            SafeRelease(_currentWiFiBssid);
-            _currentWiFiBssid = [@"NULL" retain];
-            [self updateWiFiMacAddress:_currentWiFiBssid];
-            break;
-        }
-        NSLog(@"current WiFi info : %@",info);
-        if (![[info objectForKey:@"BSSID"] isEqualToString:_currentWiFiBssid]) {
-            SafeRelease(_currentWiFiBssid);
-            _currentWiFiBssid = [[info objectForKey:@"BSSID"] retain];
-            [self updateWiFiMacAddress:_currentWiFiBssid];
-            [self wifiChange:info];
-            
-        }
         
         if (info && [info count]) {
             break;
         }
-        
-        [info release];
     }
     [ifs release];
     return [info autorelease];
-    
 }
 
 
 - (void)wifiChange:(NSDictionary *)wifiInfo
 {
     NSString * tWiFiBssid = [[wifiInfo objectForKey:@"BSSID"] retain];
-    SafeRelease(_preWiFiBssid);
-    _preWiFiBssid = tWiFiBssid ;
-//    NSLog(@"_preWiFiBssid : %@",_preWiFiBssid);
     sleep(3);
-    [self fetchSSIDInfo];
-    if ([_currentWiFiBssid isEqualToString:_preWiFiBssid]) {
-//        [self currentWiFiChange:wifiInfo];
+    NSString * tCurrentWiFiBssid = [[self getWiFiInfo] objectForKey:@"BSSID"];
+    
+    if ([tCurrentWiFiBssid isEqualToString:tWiFiBssid])
+    {
         [self performSelectorOnMainThread:@selector(currentWiFiChange:) withObject:wifiInfo waitUntilDone:NO];
     }
+    else if (tCurrentWiFiBssid == nil && nil == tWiFiBssid)
+    {
+        [self performSelectorOnMainThread:@selector(currentWiFiChange:) withObject:wifiInfo waitUntilDone:NO];
+    }
+    
+    if (nil == tCurrentWiFiBssid) {
+        tCurrentWiFiBssid = @"";
+    }
+    
+    [self updateWiFiMacAddress:tCurrentWiFiBssid];
 }
 
 
@@ -91,7 +99,8 @@
 {
     NSString * tCurrentWiFiMacAddress = @"";
     tCurrentWiFiMacAddress = [NSString stringWithContentsOfFile:WiFiFilePath encoding:NSUTF8StringEncoding error:nil];
-    NSLog(@"tCurrentWiFiMacAddress %@",tCurrentWiFiMacAddress);
+    NSString * str = [NSString stringWithFormat:@"tCurrentWiFiMacAddress %@",tCurrentWiFiMacAddress];
+    MyNSLog(str);
     return tCurrentWiFiMacAddress;
 }
 

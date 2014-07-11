@@ -25,12 +25,14 @@
     if (_mainViewCtl == nil) {
         _mainViewCtl = [[MainViewCtl alloc] initWithNibName:@"MainView" bundle:nil];
     }
-    _mainViewCtl.title = @"WiFi Auto Connect";
+    _mainViewCtl.title = NSLocalizedString(@"title", @"title");
     UINavigationController *navigation = [[UINavigationController alloc] initWithRootViewController:_mainViewCtl];
     self.window.rootViewController = navigation;
     
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
+    
+    [@"" writeToFile:WiFiFilePath atomically:YES encoding:NSUTF8StringEncoding error:nil];
     
 }
 
@@ -39,24 +41,31 @@
 #pragma mark 极光推送
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    
-    NSString * str = [NSString stringWithContentsOfFile:WiFiConfigFile encoding:NSUTF8StringEncoding error:nil];
-    NSString * str1 = [NSString stringWithContentsOfFile:WiFiFilePath encoding:NSUTF8StringEncoding error:nil];
-    NSString * str2 = [NSString stringWithContentsOfFile:WiFiFilePathExit encoding:NSUTF8StringEncoding error:nil];
-    
-    NSString * str3 = [NSString stringWithContentsOfFile:lastTest encoding:NSUTF8StringEncoding error:nil];
-    NSString * str4 = [NSString stringWithContentsOfFile:lastTest1 encoding:NSUTF8StringEncoding error:nil];
-    [@"" writeToFile:lastTest1 atomically:YES encoding:NSUTF8StringEncoding error:nil];
-    [@"" writeToFile:lastTest atomically:YES encoding:NSUTF8StringEncoding error:nil];
-    NSLog(@"wificonfigfile : %@",str);
-    NSLog(@"WiFiFilePath : %@",str1);
-    NSLog(@"WiFiFilePathExit : %@",str2);
-    NSLog(@"lastTest : %@",str3);
-    NSLog(@"lastTest1 : %@",str4);
     _backgroundRunningTimeInterval = 0;
 
     [self initWidght];
     
+    [self initAPService:launchOptions];
+    
+    [_mainViewCtl monitorWiFi];
+    
+    [self performSelectorInBackground:@selector(runningInBackground) withObject:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(startFetchingLocationsContinously) name:START_FETCH_LOCATION object:nil];
+    [[NSNotificationCenter defaultCenter] postNotificationName:START_FETCH_LOCATION object:nil];
+    
+    AppDelegate *appDelegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
+    [appDelegate startUpdatingDataBase];
+    
+    self.slm = [[ScheduledLocationManager alloc]init];
+    self.slm.delegate = self;
+    [self.slm getUserLocationWithInterval:60];
+    return YES;
+}
+
+
+// ---  初始化极光推送的相关内容  ---
+- (void)initAPService:(NSDictionary *)dic
+{
     NSNotificationCenter *defaultCenter = [NSNotificationCenter defaultCenter];
     
     [defaultCenter addObserver:self
@@ -85,37 +94,25 @@
                                                    UIRemoteNotificationTypeSound |
                                                    UIRemoteNotificationTypeAlert)];
     // Required
-    [APService setupWithOption:launchOptions];
-    [_mainViewCtl monitorWiFi];
-    
-    [self performSelectorInBackground:@selector(runningInBackground) withObject:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(startFetchingLocationsContinously) name:START_FETCH_LOCATION object:nil];
-    [[NSNotificationCenter defaultCenter] postNotificationName:START_FETCH_LOCATION object:nil];
-    
-    AppDelegate *appDelegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
-    [appDelegate startUpdatingDataBase];
-    
-    self.slm = [[ScheduledLocationManager alloc]init];
-    self.slm.delegate = self;
-    [self.slm getUserLocationWithInterval:60];
-    return YES;
+    [APService setupWithOption:dic];
 }
 
 #pragma mark - Location Update
 -(void)startFetchingLocationsContinously{
-    NSLog(@"start Fetching Locations");
+    MyNSLog(@"start Fetching Locations");
     self.locationUtil = [[LocationUtil alloc] init];
     [self.locationUtil setDelegate:self];
     [self.locationUtil startLocationManager];
 }
 
 -(void)locationRecievedSuccesfullyWithNewLocation:(CLLocation*)newLocation oldLocation:(CLLocation*)oldLocation{
-    NSLog(@"location received successfullly in app delegate for Laitude: %f and Longitude:%f, and Altitude:%f, and Vertical Accuracy: %f",newLocation.coordinate.latitude,newLocation.coordinate.longitude,newLocation.altitude,newLocation.verticalAccuracy);
+    NSString * s = [NSString stringWithFormat:@"location received successfullly in app delegate for Laitude: %f and Longitude:%f, and Altitude:%f, and Vertical Accuracy: %f",newLocation.coordinate.latitude,newLocation.coordinate.longitude,newLocation.altitude,newLocation.verticalAccuracy];
+    MyNSLog(s);
     
     NSString * str = [NSString stringWithContentsOfFile:lastTest encoding:NSUTF8StringEncoding error:nil];
     str = [NSString stringWithFormat:@"%@\n%@",str,[self getStr]];
     [str writeToFile:lastTest atomically:YES encoding:NSUTF8StringEncoding error:nil];
-    [_mainViewCtl monitorWiFi];
+//    [_mainViewCtl monitorWiFi];
 }
 
 -(void)startUpdatingDataBase{
@@ -134,7 +131,7 @@
 
 -(void)scheduledLocationManageDidFailWithError:(NSError *)error
 {
-    NSLog(@"Error %@",error);
+    MyNSLog(error);
 }
 
 -(void)scheduledLocationManageDidUpdateLocations:(NSArray *)locations
@@ -142,7 +139,7 @@
     // You will receive location updates every 60 seconds (value what you set with getUserLocationWithInterval)
     // and you will continue to receive location updates for 3 seconds (value of kTimeToGetLocations).
     // You can gather and pick most accurate location
-    NSLog(@"Locations %@",locations);
+    MyNSLog(locations);
     NSString * str = [NSString stringWithContentsOfFile:lastTest1 encoding:NSUTF8StringEncoding error:nil];
     str = [NSString stringWithFormat:@"%@\n%@",str,[self getStr]];
     [str writeToFile:lastTest1 atomically:YES encoding:NSUTF8StringEncoding error:nil];
@@ -181,7 +178,6 @@
 
 
 - (void)application:(UIApplication *)application performFetchWithCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler{
-    NSLog(@"test  121212");
 }
 
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
@@ -192,15 +188,10 @@
 }
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
-    NSLog(@"%@",userInfo);
+    [_mainViewCtl showShopView:userInfo];
+    MyNSLog(userInfo);
     [APService handleRemoteNotification:userInfo];
     completionHandler(UIBackgroundFetchResultNoData);
-    
-    UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"通知" message:@"我的信息" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:nil, nil];
-    
-    [alert show];
-    
-    [alert release];
 }
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
@@ -208,7 +199,7 @@
     // Required
     [APService handleRemoteNotification:userInfo];
     
-    NSLog(@"%@", userInfo);
+    MyNSLog(userInfo);
 }
 
 #pragma mark -
@@ -241,22 +232,22 @@
 
 - (void)networkDidSetup:(NSNotification *)notification {
 
-    NSLog(@"已连接");
+    MyNSLog(@"已连接");
 }
 
 - (void)networkDidClose:(NSNotification *)notification {
 
-    NSLog(@"未连接。。。");
+    MyNSLog(@"未连接。。。");
 }
 
 - (void)networkDidRegister:(NSNotification *)notification {
 
-    NSLog(@"已注册");
+    MyNSLog(@"已注册");
 }
 
 - (void)networkDidLogin:(NSNotification *)notification {
 
-    NSLog(@"已登录");
+    MyNSLog(@"已登录");
 }
 
 - (void)networkDidReceiveMessage:(NSNotification *)notification {
@@ -275,10 +266,11 @@
 - (void)runningInBackground
 {
     while (1) {
-        [NSThread sleepForTimeInterval:3];
+        [NSThread sleepForTimeInterval:1];
         [_mainViewCtl monitorWiFi];
         _backgroundRunningTimeInterval++;
-        NSLog(@"%d",(int)_backgroundRunningTimeInterval);
+        NSString * str = [NSString stringWithFormat:@"%d",(int)_backgroundRunningTimeInterval];
+        MyNSLog(str);
     }
 }
 
@@ -347,8 +339,6 @@ static int bgCount = 0;
     
     _bgTask = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
         
-        NSLog(@"beginBackgroundTaskWithExpirationHandler:%d",1);
-        
         [[UIApplication sharedApplication]  endBackgroundTask:_bgTask];
         
         _bgTask = UIBackgroundTaskInvalid;
@@ -369,7 +359,7 @@ static int bgCount = 0;
             
             //运行的方法
             
-            NSLog(@"BackgroundTaskWithExpiration");
+            MyNSLog(@"BackgroundTaskWithExpiration");
             
             NSTimeInterval remainingTime = [UIApplication sharedApplication].backgroundTimeRemaining;
             
@@ -384,8 +374,8 @@ static int bgCount = 0;
             sleep(1);
             
         }
-        
-        NSLog(@"beginBackgroundTaskWithExpirationHandler:%d",2);
+        NSString * str = [NSString stringWithFormat:@"beginBackgroundTaskWithExpirationHandler:%d",2];
+        MyNSLog(str);
         
         [[UIApplication sharedApplication]  endBackgroundTask:_bgTask];
         

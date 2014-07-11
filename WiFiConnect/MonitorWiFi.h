@@ -23,7 +23,7 @@
 
 @property(strong,nonatomic)id<MonitorWiFiDelegate> delegate;
 
-- (id)fetchSSIDInfo;
+- (void)fetchSSIDInfo;
 
 - (void)currentWiFiChange:(NSDictionary *)wifiInfo;
 

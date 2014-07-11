@@ -20,6 +20,9 @@
 		818BC89C194ED8E100399C76 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 818BC89B194ED8E100399C76 /* Security.framework */; };
 		818BC89E194ED8EB00399C76 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 818BC89D194ED8EB00399C76 /* libz.dylib */; };
 		818BC8A0194ED9D300399C76 /* PushConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = 818BC89F194ED9D300399C76 /* PushConfig.plist */; };
+		819C1C06196D0A990036F106 /* ShopInfoView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 819C1C05196D0A990036F106 /* ShopInfoView.xib */; };
+		819C1C09196D0AE00036F106 /* ShopViewCtl.m in Sources */ = {isa = PBXBuildFile; fileRef = 819C1C08196D0AE00036F106 /* ShopViewCtl.m */; };
+		819C1C0D196E2C640036F106 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 819C1C0B196E2C640036F106 /* Localizable.strings */; };
 		819C84EB19458FDD0042D282 /* SafariServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 819C84EA19458FDD0042D282 /* SafariServices.framework */; };
 		819E82821952CBD0002529A7 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 819E82811952CBD0002529A7 /* MobileCoreServices.framework */; };
 		81ADB2EC195280F90038ED1D /* ASIAuthenticationDialog.m in Sources */ = {isa = PBXBuildFile; fileRef = 81ADB2D7195280F90038ED1D /* ASIAuthenticationDialog.m */; };
@@ -79,6 +82,10 @@
 		818BC89B194ED8E100399C76 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		818BC89D194ED8EB00399C76 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		818BC89F194ED9D300399C76 /* PushConfig.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = PushConfig.plist; sourceTree = "<group>"; };
+		819C1C05196D0A990036F106 /* ShopInfoView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ShopInfoView.xib; sourceTree = "<group>"; };
+		819C1C07196D0AE00036F106 /* ShopViewCtl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShopViewCtl.h; sourceTree = "<group>"; };
+		819C1C08196D0AE00036F106 /* ShopViewCtl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShopViewCtl.m; sourceTree = "<group>"; };
+		819C1C0C196E2C640036F106 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		819C84EA19458FDD0042D282 /* SafariServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SafariServices.framework; path = System/Library/Frameworks/SafariServices.framework; sourceTree = SDKROOT; };
 		819E82811952CBD0002529A7 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		81ADB2D6195280F90038ED1D /* ASIAuthenticationDialog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASIAuthenticationDialog.h; sourceTree = "<group>"; };
@@ -292,6 +299,7 @@
 		81B9DCE61941B9A2008F64C0 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				819C1C0B196E2C640036F106 /* Localizable.strings */,
 				81B9DCF11941B9A2008F64C0 /* Images.xcassets */,
 				81086859195A765200751BC4 /* test.html */,
 				81B9DCE71941B9A2008F64C0 /* WiFiConnect-Info.plist */,
@@ -325,6 +333,7 @@
 			isa = PBXGroup;
 			children = (
 				81B9DD0F1941BA11008F64C0 /* MainView.xib */,
+				819C1C05196D0A990036F106 /* ShopInfoView.xib */,
 			);
 			name = xib;
 			sourceTree = "<group>";
@@ -337,6 +346,8 @@
 				81B9DD131941BA3C008F64C0 /* MainViewCtl.m */,
 				81B9DD171941C5B2008F64C0 /* MonitorWiFi.h */,
 				81B9DD181941C5B2008F64C0 /* MonitorWiFi.m */,
+				819C1C07196D0AE00036F106 /* ShopViewCtl.h */,
+				819C1C08196D0AE00036F106 /* ShopViewCtl.m */,
 			);
 			name = Ctl;
 			sourceTree = "<group>";
@@ -424,8 +435,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				819C1C06196D0A990036F106 /* ShopInfoView.xib in Resources */,
 				818BC8A0194ED9D300399C76 /* PushConfig.plist in Resources */,
 				81B9DD101941BA11008F64C0 /* MainView.xib in Resources */,
+				819C1C0D196E2C640036F106 /* Localizable.strings in Resources */,
 				81B9DCEA1941B9A2008F64C0 /* InfoPlist.strings in Resources */,
 				8108685A195A765200751BC4 /* test.html in Resources */,
 				81B9DCF21941B9A2008F64C0 /* Images.xcassets in Resources */,
@@ -447,6 +460,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				819C1C09196D0AE00036F106 /* ShopViewCtl.m in Sources */,
 				814C4EF319655BD000D985EB /* LocationUtil.m in Sources */,
 				81ADB2F4195280F90038ED1D /* Reachability.m in Sources */,
 				81ADB2ED195280F90038ED1D /* ASIDataCompressor.m in Sources */,
@@ -487,6 +501,14 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		819C1C0B196E2C640036F106 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				819C1C0C196E2C640036F106 /* en */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
 		81B9DCE81941B9A2008F64C0 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (

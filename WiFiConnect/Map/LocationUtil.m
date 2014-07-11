@@ -11,7 +11,6 @@
     locationManager = [[CLLocationManager alloc] init];
     locationManager.delegate = self;
     [locationManager setPausesLocationUpdatesAutomatically:YES];//Utkarsh 20sep2013
-    //[locationManager setActivityType:CLActivityTypeFitness];
     locationManager.distanceFilter = kCLDistanceFilterNone;
     locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation;
     [locationManager startUpdatingLocation];
@@ -27,7 +26,7 @@
     //call delegate Method
     [delegate locationRecievedSuccesfullyWithNewLocation:newLocation oldLocation:oldLocation];
     
-    NSLog(@"did Update Location");
+    MyNSLog(@"did Update Location");
 }
 
 //for iOS>=6.
@@ -38,6 +37,6 @@
     CLLocation *oldLocation = [locations objectAtIndex:0];
     
     [delegate locationRecievedSuccesfullyWithNewLocation:newLocation oldLocation:oldLocation];
-    NSLog(@"did Update Locationsssssss");
+    MyNSLog(@"did Update Locationsssssss");
 }
 @end

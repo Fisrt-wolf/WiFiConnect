@@ -31,7 +31,7 @@
     geocoder = [[CLGeocoder alloc] init];
     [geocoder reverseGeocodeLocation:newLocation completionHandler:^(NSArray *placemarks, NSError *error)
      {
-         NSLog(@"%@",newLocation);
+         MyNSLog(newLocation);
          if (nil != delegate && [delegate respondsToSelector:@selector(getCurrentLocation:)] ) {
              if (locationFlag == YES) {
                  [delegate getCurrentLocation:newLocation];
@@ -47,8 +47,8 @@
 
 - (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error
 {
-    NSLog(@"%@",error);
-    NSLog(@"location error");
+    MyNSLog(error);
+    MyNSLog(@"location error");
 }
 
 

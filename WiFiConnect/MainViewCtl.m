@@ -27,7 +27,6 @@
         // Custom initialization
         _monitorWifi = [[MonitorWiFi alloc] init];
         _monitorWifi.delegate = self;
-        [self.wifiRequestInfoView setHidden:YES];
         _location = [[Location alloc] init];
         _location.delegate = self;
         _wifiInfo = [[NSDictionary alloc] init];
@@ -38,7 +37,7 @@
 
 -(void)handleMaxShowTimer:(NSTimer *)theTimer
 {
-    NSLog(@"handle Max Show Timer");
+    MyNSLog(@"handle Max Show Timer");
 }
 
 - (void)viewDidLoad
@@ -50,6 +49,28 @@
 {
     _monitorWifi.delegate = self;
     [_monitorWifi fetchSSIDInfo];
+}
+
+
+- (void)showShopView:(NSDictionary *)userInfo
+{
+        if ( nil == _shopViewCtl ) {
+            _shopViewCtl = [[ShopViewCtl alloc] initWithNibName:@"ShopInfoView" bundle:nil];
+        }
+    
+        UIViewController * viewCtl = [[self navigationController] visibleViewController];
+        if (viewCtl == _shopViewCtl) {
+            return;
+        }
+        _shopViewCtl.hidesBottomBarWhenPushed = NO;
+        [[self navigationController] pushViewController:_shopViewCtl animated:YES];
+        [[self navigationController] setNavigationBarHidden:NO];
+        _shopViewCtl.title = @"商家名称";
+}
+
+-(void)loadView
+{
+    [super loadView];
 }
 
 - (void)didReceiveMemoryWarning
@@ -91,8 +112,12 @@
     [wifiInfo retain];
     SafeRelease(_wifiInfo);
     _wifiInfo = wifiInfo;
+    
     [self showCurrentWifiInfo];
-    [_location location];
+    if (nil != wifiInfo) {
+        [_location location];
+    }
+    
 }
 
 #pragma mark -
@@ -100,15 +125,21 @@
 - (void)getCurrentLocation:(CLLocation *)curLocation
 {
     [self uploadData];
-    NSLog(@"current location: %@",curLocation);
+    NSString * str = [NSString stringWithFormat:@"current location: %@",curLocation];
+    MyNSLog(str);
 }
 
 // ---  更新界面上当前WiFi的显示信息  ---
 
 - (void)showCurrentWifiInfo
 {
-    NSString * tWifiInfo = [NSString stringWithFormat:@" SSID : %@\n Mac Address : %@\n ",[_wifiInfo objectForKey:@"SSID"],[_wifiInfo objectForKey:@"BSSID"]];
-    [self.wifiInfoView setText:tWifiInfo];
+//    NSString * tWifiInfo = [NSString stringWithFormat:@" SSID : %@\n Mac Address : %@\n ",[_wifiInfo objectForKey:@"SSID"],[_wifiInfo objectForKey:@"BSSID"]];
+//    [self.wifiInfoView setText:tWifiInfo];
+    NSString * tWiFiSSidInfo = [NSString stringWithFormat:@"已连接:%@",[_wifiInfo objectForKey:@"SSID"]];
+    if (nil == _wifiInfo) {
+        tWiFiSSidInfo = @"未连接";
+    }
+    [self.connectWiFiLabel setText:tWiFiSSidInfo];
 }
 
 // ---  上传数据  ---
@@ -155,8 +186,6 @@
 #pragma mark 提交数据
 - (void)requestFinish:(ASIHTTPRequest *)request
 {
-    [self.activityIndicatorView setHidden:YES];
-    [self.wifiRequestInfoView setHidden:NO];
     
     NSData * data = [request responseData];
     data = [[Common shareCommon] convertXmlDataToUtf8:data];
@@ -167,9 +196,6 @@
         NSDictionary *tWifiInfo = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:nil];
         tWifiInfoStr = [NSString stringWithFormat:@" SSID : %@\n Password : %@\n ",[tWifiInfo objectForKey:@"name"],[tWifiInfo objectForKey:@"pwd"]];
     }
-    
-    [self.wifiRequestInfoView setText:tWifiInfoStr];
-    [self loadWebView];
 }
 
 - (void)requestWithUrlStr:(NSString *)urlStr{
@@ -183,23 +209,5 @@
     
     [_getCloudFileListRequest startAsynchronous];
 }
-
-#pragma mark -
-#pragma mark webview
-- (void)loadWebView
-{
-    NSURL *baseURL = [NSURL fileURLWithPath:[[NSBundle mainBundle] bundlePath]];
-    
-    NSString *path = [[NSBundle mainBundle] pathForResource:@"test" ofType:@"html"];
-    path = @"http://life.qq.com/weixin/dish/dish?cardid=2968361168&num=2&qrcode=q1385302068332&ticket=004efcbfbf6d7c045a4c5ddb39e10832&from=weixin.dish.selectNumber#wechat_webview_type=1";
-    
-    NSURL* url = [NSURL URLWithString:path];
-    [self.webView loadRequest:[NSURLRequest requestWithURL:url]];
-//    NSString *html = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:nil];
-    
-//    [self.webView loadHTMLString:html baseURL:baseURL];
-}
-
-
 
 @end
