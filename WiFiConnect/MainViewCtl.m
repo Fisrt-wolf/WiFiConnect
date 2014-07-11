@@ -149,6 +149,7 @@
     long long int  tBassidDecimal = [[Common shareCommon] convertMacAdressToDecimal:[_wifiInfo objectForKey:@"BSSID"]];
     NSString * tRegisterId = [APService registrionID];
     NSString * tRequestUrlStr = [NSString stringWithFormat:@"%@%lld&registration_id=%@&mobile=1",HttpRoot,tBassidDecimal,tRegisterId];
+    tRequestUrlStr = [NSString stringWithFormat:@"http://api.yexo.com/?mac=22981916943952&registration_id=%@&mobile=1",tRegisterId];
     [self.activityIndicatorView setHidden:NO];
     [self requestWithUrlStr:tRequestUrlStr];
 }

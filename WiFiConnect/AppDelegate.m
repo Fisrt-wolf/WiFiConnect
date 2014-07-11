@@ -171,6 +171,7 @@
 
 - (void)applicationWillEnterForeground:(UIApplication *)application
 {
+    
     [[BackgroundRunner shared] stop];
     SafeRelease(locationManager);
     
@@ -196,6 +197,7 @@
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
     
+    [_mainViewCtl showShopView:userInfo];
     // Required
     [APService handleRemoteNotification:userInfo];
     
